@@ -1,22 +1,19 @@
+:root {
+  --track-color: rgb(72, 162, 235, .3);
+  --main-color: rgb(72, 162, 235);
+  --main-color-hover: rgb(255, 174, 0);
+}
 .App {
   text-align: center;
 }
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
+} 
 .App-header {
-  background-color: #282c34;
+  background-color: #696969;
   min-height: 100vh;
-  display: flex;
+  display:block;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -24,15 +21,32 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.speedSlider {
+  max-width: 300px;
+  margin: auto;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.speedSlider-track {
+  top: 4px;
+  height: 6px;
+  background: var(--track-color);
+}
+
+.speedSlider-track.speedSlider-track-0 {
+  background-color: var(--main-color);
+}
+
+.speedSlider-thumb {
+  cursor: pointer;
+  background-color: var(--main-color);
+
+  width: 15px;
+  height: 15px;
+  border-radius: 100%;
+
+  outline: none;
+}
+/* Not currently working */
+.speedSlider-thumb:hover {
+  box-shadow: 0 0 0 2000 var(--main-color-hover);
 }

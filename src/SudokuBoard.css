@@ -1,0 +1,39 @@
+:root {
+    --column-count: 3;
+}
+
+.SudokuBoard {
+    border-style: solid;
+    border-color: black;
+}
+
+.boardContainer {
+    background-color: black;
+    display: grid;
+    column-gap: .2rem;
+    row-gap: .2rem;
+    /* grid-template-columns: 6rem 6rem 6rem; */
+    /* grid-gap: 1rem; */
+    grid-auto-flow: row;
+
+    margin: auto;
+    width: fit-content;
+}
+
+.boxContainer {
+    display: grid;
+    /* This is now down from the typescript */
+    /* grid-template-columns: 2rem 2rem 2rem; */
+    /* grid-gap: 1rem; */
+    grid-auto-flow: row;
+
+}
+
+.item {
+    color: white; 
+    border-style: solid;
+    border-color: #FAF9F6;
+    background-color: navy;
+    padding-left: .7rem;
+    padding-top: .1rem;
+}
