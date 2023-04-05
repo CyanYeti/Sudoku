@@ -11,7 +11,7 @@
   pointer-events: none;
 } 
 .App-header {
-  background-color: #696969;
+  background-color: #202020;
   min-height: 100vh;
   display:block;
   flex-direction: column;
@@ -49,4 +49,14 @@
 /* Not currently working */
 .speedSlider-thumb:hover {
   box-shadow: 0 0 0 2000 var(--main-color-hover);
+}
+
+.SideBySide {
+  padding-top: 1rem;
+
+  width: fit-content;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
 }

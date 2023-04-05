@@ -1,4 +1,4 @@
-import {Observable} from './backend/Observable';
+import Observable from './backend/Observable';
 export interface Observer {
     Update(state: Observable): void;
 }

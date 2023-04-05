@@ -3,15 +3,17 @@
 }
 
 .SudokuBoard {
-    border-style: solid;
-    border-color: black;
+    width: fit-content;
+    margin: auto;
+    /* border-style: solid; */
+    /* border-color: black; */
 }
 
 .boardContainer {
-    background-color: black;
+    background-color: cyan;
     display: grid;
-    column-gap: .2rem;
-    row-gap: .2rem;
+    column-gap: .1rem;
+    row-gap: .1rem;
     /* grid-template-columns: 6rem 6rem 6rem; */
     /* grid-gap: 1rem; */
     grid-auto-flow: row;
@@ -30,10 +32,14 @@
 }
 
 .item {
-    color: white; 
+    color: cyan; 
     border-style: solid;
-    border-color: #FAF9F6;
-    background-color: navy;
-    padding-left: .7rem;
+    border-color: 404040;
+    background-color: #282828;
+    padding-left: .4rem;
     padding-top: .1rem;
+}
+
+.item:hover {
+    background-color: darkorange;
 }

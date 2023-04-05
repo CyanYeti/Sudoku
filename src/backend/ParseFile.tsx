@@ -17,7 +17,7 @@ export class ParseFile {
 
     async processFileWrapper(fileName: File | null) {
         if (fileName === null) return
-        await this.loadPromise(fileName);
+        return await this.loadPromise(fileName);
     }
 
     loadPromise(fileName: File) {
