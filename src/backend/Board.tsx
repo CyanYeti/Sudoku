@@ -22,8 +22,11 @@ class Board extends Observable {
             // Fill potential guesses
             this.BoardGuesses = [[[]]]
             // this.BoardGuesses = Array.from({ length: size }, () => Array.from({length: size}, () => Array.from({length: size}, (_,i) => {return String(i + 1) })))
-            this.BoardGuesses = Array.from({ length: size }, () => Array.from({length: size}, () => Array<string>(size).fill("-")))
+            // this.BoardGuesses = Array.from({ length: size }, () => Array.from({length: size}, () => Array<string>(size).fill("-")))
+            this.BoardGuesses = Array.from({ length: this.size }, () => Array.from({length: this.size}, () => Array.from({length: this.size}, (_,i) => {return String(i + 1) })))
 
+            let defaultPotentialGusses = ["1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","g","h","i","h","j","k","l","m","n","o","p","q","r","s","r","v","t","r","v","u","v","w","x","y","z"]
+            this.potentialGusses = defaultPotentialGusses.splice(0).splice(0,this.size)
         }
     }
     
@@ -37,9 +40,8 @@ class Board extends Observable {
             this.Editable[x][y] = false //Initial cells cannot be changed
         } else if (this.Editable[x][y]) {
             this.Board[x][y] = newVal
-            this.BoardGuesses[x][y] = newGuesses
+            // this.BoardGuesses[x][y] = newGuesses
         }
-        console.log(this.Board[x][y])
         this.Notify(this.Clone())
     }
     public SetBoard(newBoard: Board) {
@@ -54,6 +56,9 @@ class Board extends Observable {
     }
     public GetPotentialGuesses() {
         return this.potentialGusses
+    }
+    public GetCellGuesses(x: number, y: number) {
+        return this.BoardGuesses[x][y]
     }
     public SetCellGuesses(x: number, y: number, guesses: string[]){
         this.BoardGuesses[x][y] = guesses
@@ -123,7 +128,11 @@ class Board extends Observable {
         // Fill potential guesses
         this.BoardGuesses = [[[]]]
         this.BoardGuesses = Array.from({ length: this.size }, () => Array.from({length: this.size}, () => Array.from({length: this.size}, (_,i) => {return String(i + 1) })))
+   
+        let defaultPotentialGusses = ["1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","g","h","i","h","j","k","l","m","n","o","p","q","r","s","r","v","t","r","v","u","v","w","x","y","z"]
+        this.potentialGusses = defaultPotentialGusses.splice(0).splice(0,this.size)
     }
+
     public Clone() {
         // return Object.assign({Board}, this)
         return Object.assign(Object.create(this), this)

@@ -9,7 +9,8 @@ export function CheckSolvedBoard(board: Board): boolean {
         temp = (checkColumn(board, i))
         if (!temp) solved = false
 
-        temp = (checkRow(board, i))
+        // temp = (checkBox(board, i))
+        // TODO: Fix the checking box
         if (!temp) solved = false
     }
 
@@ -47,6 +48,7 @@ function checkColumn(board: Board, y: number): boolean {
 
 function checkBox(board: Board, x: number, y: number): boolean {
     let options = board.GetPotentialGuesses()
+
     let row = board.GetBox(x, y)
     options = options.filter((val) => {
         // console.log(this.BoardState.GetRow(cell.X))

@@ -1,5 +1,6 @@
 import Command from "./Command";
 import Board from "../Board";
+import { error } from "console";
 
 class LoadCommand extends Command {
     private oldBoard: Board;
@@ -29,6 +30,7 @@ class LoadCommand extends Command {
         this.BoardState.size = this.size
         this.BoardState.ClearBoard()
         this.BoardState.SetPotentialGuesses(this.guesses)
+        console.log(this.BoardState)
         this.newBoard.forEach((element, index) => {
             if(element === '-') element = '-'
             let x = Math.floor(index / this.size)

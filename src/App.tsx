@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SudokuBoard from "./SudokuBoard";
 import ReactSlider from "react-slider";
 import Board from "./backend/Board";
@@ -7,6 +7,7 @@ import {ParseFile} from "./backend/ParseFile"
 
 import './App.css';
 import { CheckSolvedBoard } from "./backend/SolvedChecker";
+import SymbolInput from "./SymbolInput";
 
 const DEFAULTSIZE = 9
 
@@ -33,26 +34,33 @@ const App = () => {
     }
 }
 
+  const updateBoard = (board: Board) => {
+    setBoard(board)
+  }
+
+  useEffect(() => {
+  },[board] )
 
   // render() {
     return (
       <div className="App">
         <header className="App-header">
           <div className="SideBySide">
-          <div>
-              <SudokuBoard boardSize={boardSize} board={board}/>
+            <div>
+              <SudokuBoard boardSize={boardSize} board={board} update={updateBoard} />
+              <SymbolInput board={board} key={board.GetPotentialGuesses()} update={updateBoard} />
             </div>
             <div className="Menu">
               <div>
                 <button onClick={() => {commandFactory.CreateAndDo("undo", [])}}>Back</button>
-                <button onClick={() => {commandFactory.CreateAndDo("run", [board, method])}}>Play</button>
+                <button onClick={() => {commandFactory.CreateAndDo("run", [board.Clone(), method])}}>Play</button>
                 <button onClick={() => {commandFactory.CreateAndDo("redo", [])}}>Next</button>
               </div>
               <div>
                 <select id="method-selector" onChange={(e) => {setMethod(e.target.value)}}>
                   <option value="combined">Combined</option>
                   <option value="guessing">Guessing</option>
-                  <option value="bt">Backtracking</option>
+                  <option value="lastremaining">Last Remaining</option>
                   <option value="bt">Backtracking</option>
                   <option value="bt">Backtracking</option>
                   <option value="bt">Backtracking</option>

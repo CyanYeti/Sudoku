@@ -24,19 +24,22 @@ abstract class CellSolutionTemplate {
             // console.log(this.CheckRow(cell))
             return rowGuesses.indexOf(val) !== -1
         })
+        console.log(guesses)
 
         console.log("Checking Columns")
         let columnGuesses = this.CheckColumn(cell)
         guesses = guesses.filter((val) => {
             return columnGuesses.indexOf(val) !== -1
         })
+        console.log(guesses)
 
         console.log("Checking Box")
         let boxGuesses = this.CheckBox(cell)
         guesses = guesses.filter((val) => {
-            console.log("Checking Boxes")
             return boxGuesses.indexOf(val) !== -1
         })
+        console.log(guesses)
+
         // console.log("here")
         // console.log(guesses)
         return guesses

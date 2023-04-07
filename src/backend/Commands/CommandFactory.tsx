@@ -4,6 +4,7 @@ import UndoCommand from "./UndoCommand"
 import RunCommand from "./RunCommand"
 import Command from "./Command"
 import Invoker from "../Invoker"
+import SetCellCommand from "./SetCellCommand"
 
 class CommandFactory {
     // make singleton
@@ -22,6 +23,9 @@ class CommandFactory {
                 break
             case "run":
                 newCommand = new RunCommand(commandParams)
+                break
+            case "setcell":
+                newCommand = new SetCellCommand(commandParams)
                 break
             default:
                 return

@@ -3,11 +3,13 @@ import { Observer } from "./Observer";
 
 import './SudokuBoard.css';
 import Board from "./backend/Board";
+import CommandFactory from "./backend/Commands/CommandFactory";
 
 //= (props: {boardSize: number})  =>
 type Props = {
     boardSize: number,
     board: Board,
+    update: (board: Board) => void
 }
 type State = {
     test: number,
@@ -33,6 +35,7 @@ class SudokuBoard extends Component<Props, State> implements Observer  {
         this.state.history.push(newState);
         this.setState({size: newState.size})
         this.setState({board: newState})
+        this.props.update(newState)
         // console.log(this.state.history.length)
         // this.forceUpdate()
     }
@@ -65,11 +68,13 @@ class SudokuBoard extends Component<Props, State> implements Observer  {
         cellsIndexs.forEach(boxVals => {
             cells.push(boxVals.map((value: number) => {
                 // console.log(this.state.board.GetCellEditablity(value))
+                let X = Math.trunc(value / this.state.size)
+                let Y = value % this.state.size
                 return <input type="text" className="item" 
                     disabled={!this.state.board.GetCellEditablity(value)}
                     defaultValue={(this.state.board.GetCell(value) === '-') ? '' : this.state.board.GetCell(value)}
                     onChange={e => {
-                        this.setState({test: currentSize});
+                        new CommandFactory().CreateAndDo("setcell", [this.state.board, String(e.target.value), X, Y, undefined, true])
                     }
                 } />
         }))})

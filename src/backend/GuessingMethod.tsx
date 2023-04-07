@@ -2,14 +2,17 @@ import CellSolutionTemplate from "./CellSolutionTemplate";
 class GuessingMethod extends CellSolutionTemplate {
 
     protected CheckRow(cell: {X:number, Y:number}): string[] {
+        console.log("=======")
+        console.log(this.BoardState)
         let options = this.BoardState.GetPotentialGuesses()
+        console.log(options)
         let row = this.BoardState.GetRow(cell.X)
         options = options.filter((val) => {
             // console.log(this.BoardState.GetRow(cell.X))
             return row?.indexOf(val) === -1
         })
-        console.log("Row Guesses:")
-        console.log(options)
+        console.log("=======")
+
         return options
     }
     protected CheckColumn(cell: {X:number, Y:number}): string[] {
@@ -18,8 +21,6 @@ class GuessingMethod extends CellSolutionTemplate {
         options = options.filter((val) => {
             return column?.indexOf(val) === -1
         })
-        console.log("Column Guesses:")
-        console.log(options)
         return options
     }
     protected CheckBox(cell: {X:number, Y:number}): string[] {
@@ -28,8 +29,6 @@ class GuessingMethod extends CellSolutionTemplate {
         options = options.filter((val) => {
             return box?.indexOf(val) === -1
         })
-        console.log("Box Guesses:")
-        console.log(options)
         return options
     }
 

@@ -2,6 +2,7 @@ import Command from "./Command";
 import CellSolutionTemplate from "../CellSolutionTemplate";
 import Board from "../Board";
 import GuessingMethod from "../GuessingMethod";
+import LastRemainingMethod from "../LastRemainingMethod";
 
 class RunCommand extends Command {
     private method!: string
@@ -23,6 +24,9 @@ class RunCommand extends Command {
                 break
             case "guessing":
                 solver = new GuessingMethod(this.BoardState)
+                break
+            case "lastremaining":
+                solver = new LastRemainingMethod(this.BoardState)
                 break
             default:
                 return false
