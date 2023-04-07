@@ -1,8 +1,7 @@
-import CellSolutionTemplate from "./backend/CellSolutionTemplate";
+import CellSolutionTemplate from "./CellSolutionTemplate";
 
-class NakedTripleMethod extends CellSolutionTemplate {
+class IntersectionRemovalMethod extends CellSolutionTemplate {
     protected CheckRow(cell: { X: number; Y: number; }): string[] {
-        // Check row for cells that combine to be no more than three. Remove those numbers from me
         throw new Error("Method not implemented.");
     }
     protected CheckColumn(cell: { X: number; Y: number; }): string[] {
@@ -14,4 +13,4 @@ class NakedTripleMethod extends CellSolutionTemplate {
 
 }
 
-export default NakedTripleMethod
+export default IntersectionRemovalMethod
