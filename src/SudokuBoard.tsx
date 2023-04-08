@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { Component  } from "react";
 import { Observer } from "./Observer";
 
 import './SudokuBoard.css';

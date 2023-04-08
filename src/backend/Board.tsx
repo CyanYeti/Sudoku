@@ -1,4 +1,4 @@
-import { Observer } from "../Observer"
+// import { Observer } from "../Observer"
 import Observable from "./Observable"
 
 class Board extends Observable {
