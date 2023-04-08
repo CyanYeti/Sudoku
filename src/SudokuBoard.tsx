@@ -15,7 +15,7 @@ type State = {
     test: number,
     history: any[],
     board: Board,
-    size: number,
+    // size: number,
 }
 
 class SudokuBoard extends Component<Props, State> implements Observer  {
@@ -25,15 +25,22 @@ class SudokuBoard extends Component<Props, State> implements Observer  {
             test: 0,
             history: [],
             board: this.props.board,
-            size: this.props.boardSize,
+            // size: this.props.boardSize,
         };
+        console.log("Constructed")
         this.state.board.Subscribe(this)
     }
     
+    // componentDidMount(): void {
+    //     this.setState({size: this.props.board.size})
+    // }
+    // componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any): void {
+    //     this.setState({size: this.props.board.size})
+    // }
     
     Update(newState: any) {
         this.state.history.push(newState);
-        this.setState({size: newState.size})
+        // this.setState({size: newState.size})
         this.setState({board: newState})
         this.props.update(newState)
         // console.log(this.state.history.length)
@@ -42,9 +49,13 @@ class SudokuBoard extends Component<Props, State> implements Observer  {
     boxes: any;
     columnsSize: any;
     CreateBoard() {
-        console.log(this.state.board)
+        // this.setState({board: this.props.board})
+        // this.setState({size: this.state.board.size})
+        // console.log(this.props.boardSize)
+        // console.log(this.props.board)
+        // console.log(this.state.board)
 
-        let currentSize = this.state.size;
+        let currentSize = this.state.board.size;
         let sizeArray = Array.from(Array(currentSize).keys())
         let columnSize = Array.from(Array(Math.sqrt(currentSize)).keys()).map(() => {
             return "1.5rem "
@@ -68,8 +79,9 @@ class SudokuBoard extends Component<Props, State> implements Observer  {
         cellsIndexs.forEach(boxVals => {
             cells.push(boxVals.map((value: number) => {
                 // console.log(this.state.board.GetCellEditablity(value))
-                let X = Math.trunc(value / this.state.size)
-                let Y = value % this.state.size
+                let X = Math.trunc(value / this.state.board.size)
+                let Y = value % this.state.board.size
+                // console.log(this.state.size)
                 return <input type="text" className="item" 
                     disabled={!this.state.board.GetCellEditablity(value)}
                     defaultValue={(this.state.board.GetCell(value) === '-') ? '' : this.state.board.GetCell(value)}

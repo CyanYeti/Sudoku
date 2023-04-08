@@ -42,6 +42,7 @@ class Board extends Observable {
             this.Board[x][y] = newVal
             // this.BoardGuesses[x][y] = newGuesses
         }
+        this.UpdateBoardGuesses()
         this.Notify(this.Clone())
     }
     public SetBoard(newBoard: Board) {
@@ -63,9 +64,62 @@ class Board extends Observable {
     public SetCellGuesses(x: number, y: number, guesses: string[]){
         this.BoardGuesses[x][y] = guesses
         if (guesses.length === 1 ) {
-            console.log("setting cell: " + guesses[0])
-            console.log(x + ", " + y)
-            this.SetCell(guesses[0], x, y, guesses)
+            // console.log("setting cell: " + guesses[0])
+            // console.log(x + ", " + y)
+            // this.SetCell(guesses[0], x, y, guesses)
+        }
+    }
+    public CheckForSolvedCells() {
+        this.Board.forEach((row, x) => {
+            row.forEach((cell, y) => {
+                if (this.GetCellGuesses(x,y).length === 1) {
+                    this.SetCell(this.GetCellGuesses(x,y)[0], x, y, [])
+                }
+            })
+        })
+    }
+    private UpdateBoardGuesses() {
+        // Update the cells potentials from their rows
+        this.Board.forEach((row, x) => {
+            row.forEach((cell, y) => {
+                let myGuesses = this.GetCellGuesses(x,y)
+                if (myGuesses.length <= 1) return
+                // If my row contains a set number than remove it from possible pool
+                myGuesses = myGuesses.filter((value) => {
+                    return row.indexOf(value) === -1
+                })
+                this.SetCellGuesses(x, y, myGuesses)
+            })
+        })
+
+        // Update the cells potentials from their columns
+        this.Board.forEach((eh, y) => {
+            let column = this.GetColumn(y)
+            column?.forEach((cell, x) => {
+                let myGuesses = this.GetCellGuesses(x,y)
+                if (myGuesses.length <= 1) return
+                // If my row contains a set number than remove it from possible pool
+                myGuesses = myGuesses.filter((value) => {
+                    return column?.indexOf(value) === -1
+                })
+                this.SetCellGuesses(x, y, myGuesses)
+            })
+        })
+
+        // Update the cells potentials from their boxes
+        for(let x = 0; x < this.size; x++) {
+            for(let y = 0; y < this.size; y++) {
+                let box = this.GetBox(x, y)
+                let myGuesses = this.GetCellGuesses(x,y)
+                box?.forEach((cell) => {
+                    if (myGuesses.length <= 1) return
+                    // If my row contains a set number than remove it from possible pool
+                    myGuesses = myGuesses.filter((value) => {
+                        return box?.indexOf(value) === -1
+                    })
+                    this.SetCellGuesses(x, y, myGuesses)
+                })
+            }
         }
     }
 
@@ -84,6 +138,10 @@ class Board extends Observable {
         if (y === undefined) {
             let X = Math.trunc(x / this.size)
             let Y = x % this.size
+            if (X >= this.size || Y >= this.size) return false
+            // console.log(this.size)
+            // console.log(X + ", " + Y)
+            // console.log(this.Editable)
             return this.Editable[X][Y]
         }
         return this.Editable[x][y]

@@ -3,6 +3,8 @@ import CellSolutionTemplate from "../CellSolutionTemplate";
 import Board from "../Board";
 import GuessingMethod from "../GuessingMethod";
 import LastRemainingMethod from "../LastRemainingMethod";
+import NakedPairMethod from "../NakedPairMethod";
+import XWingMethod from "../XWingMethod";
 
 class RunCommand extends Command {
     private method!: string
@@ -27,6 +29,12 @@ class RunCommand extends Command {
                 break
             case "lastremaining":
                 solver = new LastRemainingMethod(this.BoardState)
+                break
+            case "nakedpair":
+                solver = new NakedPairMethod(this.BoardState)
+                break
+            case "xwing":
+                solver = new XWingMethod(this.BoardState)
                 break
             default:
                 return false

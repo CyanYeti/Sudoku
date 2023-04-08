@@ -39,6 +39,7 @@ const App = () => {
   }
 
   useEffect(() => {
+    // setBoardSize(board.size)
   },[board] )
 
   // render() {
@@ -61,8 +62,8 @@ const App = () => {
                   <option value="combined">Combined</option>
                   <option value="guessing">Guessing</option>
                   <option value="lastremaining">Last Remaining</option>
-                  <option value="bt">Backtracking</option>
-                  <option value="bt">Backtracking</option>
+                  <option value="nakedpair">Naked Pair</option>
+                  <option value="xwing">XWing</option>
                   <option value="bt">Backtracking</option>
                 </select>
               </div>
@@ -82,7 +83,7 @@ const App = () => {
                 <div>
                   <input type='file' onChange={e => selectFile(e)}/>
                 </div>
-                <button>Manual</button>
+                <button onClick={(e) => board.CheckForSolvedCells()} >Manual</button>
                 <button>Export</button>
                 <button onClick={(e) => setSolved(CheckSolvedBoard(board))}>Check Solution: {String(solved)}</button>
                 {/* <input type="" defaultValue={9} onChange={e => {
