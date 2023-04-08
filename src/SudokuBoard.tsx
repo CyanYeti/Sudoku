@@ -4,6 +4,7 @@ import { Observer } from "./Observer";
 import './SudokuBoard.css';
 import Board from "./backend/Board";
 import CommandFactory from "./backend/Commands/CommandFactory";
+import TestPopup from "./TestPopup";
 
 //= (props: {boardSize: number})  =>
 type Props = {
@@ -48,6 +49,7 @@ class SudokuBoard extends Component<Props, State> implements Observer  {
     }
     boxes: any;
     columnsSize: any;
+    cellGuesses: any[] = [];
     CreateBoard() {
         // this.setState({board: this.props.board})
         // this.setState({size: this.state.board.size})
@@ -74,6 +76,7 @@ class SudokuBoard extends Component<Props, State> implements Observer  {
                 })
                 cellsIndexs.push(temp);
         }
+        // let cellsGuesses: any[] = []
         let cells: any[] = []
         // console.log(this.state.board)
         cellsIndexs.forEach(boxVals => {
@@ -82,13 +85,17 @@ class SudokuBoard extends Component<Props, State> implements Observer  {
                 let X = Math.trunc(value / this.state.board.size)
                 let Y = value % this.state.board.size
                 // console.log(this.state.size)
-                return <input type="text" className="item" 
+                return <div className="item">
+                    <div className={"cellGuesses num" + X}>{this.state.board.GetCellGuesses(X,Y).toString()}</div>
+                    <input type="text" className="itemInput"
                     disabled={!this.state.board.GetCellEditablity(value)}
                     defaultValue={(this.state.board.GetCell(value) === '-') ? '' : this.state.board.GetCell(value)}
                     onChange={e => {
                         new CommandFactory().CreateAndDo("setcell", [this.state.board, String(e.target.value), X, Y, undefined, true])
                     }
-                } />
+                    } />
+                </div>
+                
         }))})
 
         let rem = columnSize.toString().replaceAll(",","")
@@ -113,8 +120,8 @@ class SudokuBoard extends Component<Props, State> implements Observer  {
                 </div>
                 <div className="boardContainer" style={{gridTemplateColumns: this.columnsSize}}>
                     {this.boxes}
-                </div>
-                
+                </div>        
+
             </header>
         </div>
         );

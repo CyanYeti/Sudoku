@@ -32,14 +32,55 @@
 }
 
 .item {
-    color: cyan; 
+    color: #282828; 
     border-style: solid;
-    border-color: 404040;
+    border-color: #404040;
     background-color: #282828;
-    padding-left: .4rem;
+    width: auto;
+    overflow: auto;
+    display: table; 
+    /* position: relative; */
+}
+.itemInput {
+    color: cyan; 
+    border: none;
+    display: inline-block;
+    background-color: #282828;
+    width: 100%;
+    padding-left: .45rem;
     padding-top: .1rem;
+    box-sizing: border-box;
+    display: table-row;
+    outline: none; 
+    /* position: absolute; */
+    -webkit-appearance: none;
+    /* border: none; */
 }
 
-.item:hover {
+.itemInput:hover {
     background-color: darkorange;
+}
+.cellGuesses {
+    display:none;
+    color: cyan;
+    /* visibility: hidden; */
+    width: auto;
+  /* background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px; */
+}
+.item:hover > .cellGuesses {
+    display:block;
+    /* visibility: visible; */
+
+    /* position: absolute; */
+}
+.item:hover {
+    z-index: 1;
 }
