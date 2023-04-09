@@ -60,3 +60,8 @@
   flex-direction: row;
   gap: 1rem;
 }
+
+.DownLoadAnchor {
+  visibility: hidden;
+  display: none;
+}

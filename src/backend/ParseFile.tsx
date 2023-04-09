@@ -1,6 +1,9 @@
 // import *  as fs from 'fs';
 // const fs = new require('fs') as typeof import('fs');
 
+import { writeFileSync } from "fs";
+import Board from "./Board";
+
 
 export class ParseFile {
     private fileAsText: string;
@@ -40,4 +43,8 @@ export class ParseFile {
 
         return this.fileAsText;
     } 
+
+    SaveBoard(fileName: string, board: Board) {
+        writeFileSync(fileName, "NewData" + board.size)
+    }
 }

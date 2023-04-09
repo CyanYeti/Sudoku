@@ -64,11 +64,7 @@ class Board extends Observable {
     }
     public SetCellGuesses(x: number, y: number, guesses: string[]){
         this.BoardGuesses[x][y] = guesses
-        if (guesses.length === 1 ) {
-            // console.log("setting cell: " + guesses[0])
-            // console.log(x + ", " + y)
-            // this.SetCell(guesses[0], x, y, guesses)
-        }
+        // this.Notify(this.Clone())
     }
     public CheckForSolvedCells() {
         this.Board.forEach((row, x) => {

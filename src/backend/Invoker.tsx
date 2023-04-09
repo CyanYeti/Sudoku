@@ -26,6 +26,7 @@ class Invoker {
             this.UndoStack.push(lastCmd)
             return
         }
+        
         command.Execute()
         this.UndoStack.push(command)
         this.RedoStack.splice(0)

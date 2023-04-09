@@ -5,6 +5,7 @@ import GuessingMethod from "../GuessingMethod";
 import LastRemainingMethod from "../LastRemainingMethod";
 import NakedPairMethod from "../NakedPairMethod";
 import XWingMethod from "../XWingMethod";
+import IntersectionRemovalMethod from "../IntersectionRemovalMethod";
 
 class RunCommand extends Command {
     private method!: string
@@ -35,6 +36,9 @@ class RunCommand extends Command {
                 break
             case "xwing":
                 solver = new XWingMethod(this.BoardState)
+                break
+            case "intersection":
+                solver = new IntersectionRemovalMethod(this.BoardState)
                 break
             default:
                 return false

@@ -64,7 +64,7 @@ const App = () => {
                   <option value="lastremaining">Last Remaining</option>
                   <option value="nakedpair">Naked Pair</option>
                   <option value="xwing">XWing</option>
-                  <option value="bt">Backtracking</option>
+                  <option value="intersection">Intersection Removal</option>
                 </select>
               </div>
               <div>
@@ -84,7 +84,8 @@ const App = () => {
                   <input type='file' onChange={e => selectFile(e)}/>
                 </div>
                 <button onClick={(e) => board.CheckForSolvedCells()} >Manual</button>
-                <button>Export</button>
+                <button >Export</button>
+                <a className="DownLoadAnchor" href="/ExportedBoard.txt" download="ExportedBoard.txt">Download</a>
                 <button onClick={(e) => setSolved(CheckSolvedBoard(board))}>Check Solution: {String(solved)}</button>
                 {/* <input type="" defaultValue={9} onChange={e => {
                   if(Number(e.target.value) !== 0 && Number.isInteger(Math.sqrt(Number(e.target.value)))) {
