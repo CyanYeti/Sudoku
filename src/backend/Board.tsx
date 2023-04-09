@@ -42,6 +42,7 @@ class Board extends Observable {
             this.Board[x][y] = newVal
             // this.BoardGuesses[x][y] = newGuesses
         }
+        if (newVal !== "-") this.BoardGuesses[x][y] = [""+newVal]
         this.UpdateBoardGuesses()
         this.Notify(this.Clone())
     }

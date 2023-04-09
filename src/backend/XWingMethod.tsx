@@ -3,99 +3,175 @@ import CellSolutionTemplate from "./CellSolutionTemplate";
 
 class XWingMethod extends CellSolutionTemplate {
     protected CheckRow(cell: { X: number; Y: number; }): string[] {
-        console.log(cell.X + ", " + cell.Y)
-
         // In a row check for cells that have the same values
-        // let myRow = this.BoardState.GetRow(cell.X)
         let myGuesses = this.BoardState.GetCellGuesses(cell.X, cell.Y)
-        // let allPotentialsInRow:string[][] = [[]]
-        // let indexes:number[] = []
-        // // get cells row
-        // 
+        if (this.BoardState.GetCell(cell.X, cell.Y) !== "-") return myGuesses
+
         let overlap = this.BoardState.GetPotentialGuesses()
         let reducedMyGuesses = myGuesses
-        let columnOne = -1
-        let columnTwo = -1
-        let pairIndex = { X: -1, Y: -1 }
+        // Check each Y in my column
         for(let firstPairX = 0; firstPairX < this.BoardState.size; firstPairX++) {
-            let firstRow = this.BoardState.GetRow(firstPairX)
-            let firstRowPotentials:string[][] = [[]]
-            let indexes:number[] = []
-            firstRow?.forEach((value, index) => {
-                // Don't grab me
-                if (index === cell.Y) return
-                // Only take it if the value is empty
-                if (this.BoardState.GetCell(cell.X, index) !== "-") return
-                
+            // get the first row to check
+            let row = this.BoardState.GetRow(firstPairX)
+            let firstRowPotentials:string[][] = []
+            // let indexes:number[] = []
+            row?.forEach((value, index) => {
                 // Get guesses of each cell in row
-                firstRowPotentials.push(this.BoardState.GetCellGuesses(cell.X, index))
-                indexes.push(index)
+                firstRowPotentials.push(this.BoardState.GetCellGuesses(firstPairX, index))
+                // indexes.push(index)
             })
-            for(let mainY = 0; mainY<this.BoardState.size; mainY++)
-            // eslint-disable-next-line no-loop-func
-            firstRowPotentials.forEach((value, index) => {
-                // if we find a matching spot, check other rows
-                if(this.BoardState.GetCellGuesses(firstPairX, mainY).toString() === value.toString()) {
-                    pairIndex.X = firstPairX
-                    pairIndex.Y = indexes[index]
-                    // Check all other rows for a pair
-                    for(let i = 0; i < this.BoardState.size; i++) {
-                        let rowPotential: string[][] = [[]]
-                        this.BoardState.GetRow(i)?.forEach((rowCell, rowIndex) => {
-                            rowPotential.push(this.BoardState.GetCellGuesses(i, rowIndex))
+            for(let firstPairY = 0; firstPairY<this.BoardState.size; firstPairY++) {
+                // Don't check the same cell as me
+                if (firstPairY === cell.Y) continue
+                if (firstRowPotentials[firstPairY].toString() === firstRowPotentials[cell.Y].toString()) {
+                    //If we find a pair see if we have a second pair
+                    for(let secondPairX = firstPairX + 1; secondPairX < this.BoardState.size; secondPairX++) {
+                        // get the first row to check
+                        let row = this.BoardState.GetRow(secondPairX)
+                        let secondRowPotentials:string[][] = []
+                        // let indexes:number[] = []
+                        row?.forEach((value, index) => {
+                            // Get guesses of each cell in row
+                            secondRowPotentials.push(this.BoardState.GetCellGuesses(secondPairX, index))
+                            // indexes.push(index)
                         })
-                        if (rowPotential[mainY]?.toString() === rowPotential[pairIndex.Y]?.toString()) {
-                            // If at the matching indexs, they are also a pair, check there is overlap between the four
-                            // Keep only guesses in each of the 4 pairs, but one need to check 2, one from each
-                            overlap = overlap.filter((potentialGuesses) => {
-                                return rowPotential[mainY].indexOf(potentialGuesses) !== -1
-                            })
-                            overlap = overlap.filter((potentialGuesses) => {
-                                return this.BoardState.GetCellGuesses(firstPairX, mainY).indexOf(potentialGuesses) !== -1
-                            })
-                            // if (overlap.length !== 0) console.log(overlap)
-                            // I have four pairs to check. firstPairX + mainY, firstPairX + pairIndex.Y, i +mainY, i+pairIndex.Y
-                            // if (cell.X !== firstPairX && cell.Y !== mainY) return
-                            // if (cell.X === firstPairX && cell.Y === pairIndex.Y) return
-                            // if (cell.X === i && cell.Y === mainY) return
-                            // if (cell.X === i && cell.Y === pairIndex.Y) return
-                            console.log("x:" + i)
-                            console.log(mainY + " " + pairIndex.Y)
-                            console.log(rowPotential[mainY]?.toString())
-                            console.log(rowPotential[pairIndex.Y]?.toString())
-                            if (cell.Y === mainY || cell.Y === pairIndex.Y) return
-                            console.log("Reduceing")
-                            reducedMyGuesses = reducedMyGuesses.filter((value) => {
-                                return overlap.indexOf(value) === -1
-                            })
-                            // console.log(reducedMyGuesses)
-                            // This overlap can be removed from the two columns
+                        for(let secondPairY = 0; secondPairY<this.BoardState.size; secondPairY++) {
+                            // Don't check the same cell as me
+                            // if (secondPairY === cell.Y) continue
+                            if (secondPairY !== firstPairY) continue
+                            if (this.BoardState.GetCell(firstPairX, cell.Y) !== "-") continue
+                            if (this.BoardState.GetCell(firstPairX, firstPairY) !== "-") continue
+                            if (this.BoardState.GetCell(secondPairX, cell.Y) !== "-") continue
+                            if (this.BoardState.GetCell(secondPairX, secondPairY) !== "-") continue
+                            // if (secondPairX === 5) console.log(secondRowPotentials)
+                            // if (secondPairX === 5) console.log(secondRowPotentials[cell.Y].toString() + " :" + cell.Y)
+                            // if (secondPairX === 5) console.log(secondRowPotentials[secondPairY].toString() + " :" + secondPairY)
+                            if (secondRowPotentials[secondPairY].toString() === secondRowPotentials[cell.Y].toString()) {
+                                // We should now have two pairs with the columns cell.Y and 
+                                // Find the overlap between the 4
+                                overlap = overlap.filter((potentialGuesses) => {
+                                    return firstRowPotentials[firstPairY].indexOf(potentialGuesses) !== -1
+                                })
+                                overlap = overlap.filter((potentialGuesses) => {
+                                    return secondRowPotentials[secondPairY].indexOf(potentialGuesses) !== -1
+                                })
+                                // Make sure the overlap of the pair only occurs at each of pairs
+                                // We need to be the only two cells with the overlap in the row
+                                let onlyPairs = true
+                                for(let i = 0; i < firstRowPotentials.length; i++) {
+                                    if (i === cell.Y || i === secondPairY) continue
+                                    overlap.forEach((overlapValue) => {
+                                        if(firstRowPotentials[i].indexOf(overlapValue) !== -1) {
+                                            onlyPairs = false
+                                        }
+                                        if(secondRowPotentials[i].indexOf(overlapValue) !== -1) {
+                                            onlyPairs = false
+                                        }
+                                    })
+                                }
+                                if(!onlyPairs) continue
+                                // If we are one of the pairs, don't reduce
+                                if(cell.X === firstPairX && cell.Y === firstPairY) continue
+                                if(cell.X === firstPairX) continue
+                                if(cell.X === secondPairX && cell.Y === secondPairY) continue
+                                if(cell.X === secondPairX) continue
+                                reducedMyGuesses = reducedMyGuesses.filter((val) => {
+                                    return overlap.indexOf(val) === -1
+                                })
+                            }
                         }
                     }
                 }
-            })
+            }
         }
-
-        // If we didn't have a pairing, return
-        console.log(overlap)
-        console.log(myGuesses)
-        console.log(reducedMyGuesses)
-        if (pairIndex.X === -1 && pairIndex.Y === -1) return myGuesses
-        if (overlap.length === 0 ) return myGuesses
-        // myGuesses =  myGuesses.filter((value) => {
-        //     return overlap.indexOf(value) !== -1
-        // })
         return reducedMyGuesses
-        // If i am not one of ther pairs 
-        // if (cell.Y, )
-
-        // check other rows that have a pair in the same y with overlapping values
-        // overlapping values can be removed from other rows in the two columns 
     }
     protected CheckColumn(cell: { X: number; Y: number; }): string[] {
-        return this.BoardState.GetCellGuesses(cell.X, cell.Y)
+        // In a row check for cells that have the same values
+        let myGuesses = this.BoardState.GetCellGuesses(cell.X, cell.Y)
+        if (this.BoardState.GetCell(cell.X, cell.Y) !== "-") return myGuesses
+
+        let overlap = this.BoardState.GetPotentialGuesses()
+        let reducedMyGuesses = myGuesses
+        // Check each Y in my column
+        for(let firstPairY = 0; firstPairY < this.BoardState.size; firstPairY++) {
+            // get the first row to check
+            let column = this.BoardState.GetColumn(firstPairY)
+            let firstColumnPotentials:string[][] = []
+            // let indexes:number[] = []
+            column?.forEach((value, index) => {
+                // Get guesses of each cell in row
+                firstColumnPotentials.push(this.BoardState.GetCellGuesses(index, firstPairY))
+                // indexes.push(index)
+            })
+            for(let firstPairX = 0; firstPairX<this.BoardState.size; firstPairX++) {
+                // Don't check the same cell as me
+                if (firstPairX === cell.X) continue
+                if (firstColumnPotentials[firstPairX].toString() === firstColumnPotentials[cell.X].toString()) {
+                    //If we find a pair see if we have a second pair
+                    for(let secondPairY = firstPairY + 1; secondPairY < this.BoardState.size; secondPairY++) {
+                        // get the first row to check
+                        let column = this.BoardState.GetColumn(secondPairY)
+                        let secondColumnPotentials:string[][] = []
+                        // let indexes:number[] = []
+                        column?.forEach((value, index) => {
+                            // Get guesses of each cell in row
+                            secondColumnPotentials.push(this.BoardState.GetCellGuesses(index, secondPairY))
+                            // indexes.push(index)
+                        })
+                        for(let secondPairX = 0; secondPairX<this.BoardState.size; secondPairX++) {
+                            // Don't check the same cell as me
+                            // if (secondPairY === cell.Y) continue
+                            if (secondPairX !== firstPairX) continue
+                            if (this.BoardState.GetCell(cell.X, firstPairY) !== "-") continue
+                            if (this.BoardState.GetCell(firstPairX, firstPairY) !== "-") continue
+                            if (this.BoardState.GetCell(cell.X, secondPairY) !== "-") continue
+                            if (this.BoardState.GetCell(secondPairX, secondPairY) !== "-") continue
+                            // if (secondPairX === 5) console.log(secondRowPotentials)
+                            // if (secondPairX === 5) console.log(secondRowPotentials[cell.Y].toString() + " :" + cell.Y)
+                            // if (secondPairX === 5) console.log(secondRowPotentials[secondPairY].toString() + " :" + secondPairY)
+                            if (secondColumnPotentials[secondPairX].toString() === secondColumnPotentials[cell.X].toString()) {
+                                // We should now have two pairs with the columns cell.Y and 
+                                // Find the overlap between the 4
+                                overlap = overlap.filter((potentialGuesses) => {
+                                    return firstColumnPotentials[firstPairX].indexOf(potentialGuesses) !== -1
+                                })
+                                overlap = overlap.filter((potentialGuesses) => {
+                                    return secondColumnPotentials[secondPairX].indexOf(potentialGuesses) !== -1
+                                })
+                                // Make sure the overlap of the pair only occurs at each of pairs
+                                // We need to be the only two cells with the overlap in the row
+                                let onlyPairs = true
+                                for(let i = 0; i < firstColumnPotentials.length; i++) {
+                                    if (i === cell.X || i === secondPairX) continue
+                                    overlap.forEach((overlapValue) => {
+                                        if(firstColumnPotentials[i].indexOf(overlapValue) !== -1) {
+                                            onlyPairs = false
+                                        }
+                                        if(secondColumnPotentials[i].indexOf(overlapValue) !== -1) {
+                                            onlyPairs = false
+                                        }
+                                    })
+                                }
+                                if(!onlyPairs) continue
+                                // If we are one of the pairs, don't reduce
+                                if(cell.X === firstPairX && cell.Y === firstPairY) continue
+                                if(cell.Y === firstPairY) continue
+                                if(cell.X === secondPairX && cell.Y === secondPairY) continue
+                                if(cell.Y === secondPairY) continue
+                                reducedMyGuesses = reducedMyGuesses.filter((val) => {
+                                    return overlap.indexOf(val) === -1
+                                })
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return reducedMyGuesses
     }
     protected CheckBox(cell: { X: number; Y: number; }): string[] {
+        // This method has no box check
         return this.BoardState.GetCellGuesses(cell.X, cell.Y)
     }
 
